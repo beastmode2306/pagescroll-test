@@ -32,7 +32,7 @@ FullPage.prototype.init = function () {
 
 	this.$root.querySelector(
 		".slide"
-	).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio}`;
+	).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
 
 	if (detectMob()) {
 		if ("ontouchstart" in window) {
@@ -52,7 +52,7 @@ FullPage.prototype.init = function () {
 
 				this.$root.querySelector(
 					".slide"
-				).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio}`;
+				).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
 			});
 
 			setTimeout(() => {
@@ -70,7 +70,7 @@ FullPage.prototype.init = function () {
 
 			this.$root.querySelector(
 				".slide"
-			).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio}`;
+			).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
 		});
 	}
 };
