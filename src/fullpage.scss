@@ -5,6 +5,7 @@ body {
 }
 
 .fullpage {
+	width: 100%;
 	.slide {
 		height: 100vh;
 		height: calc(var(--vh, 1vh) * 100);
@@ -14,7 +15,7 @@ body {
 			margin: 0 auto;
 			line-height: 100vh;
 			line-height: calc(var(--vh, 1vh) * 100);
-			font-size: 120px;
+			font-size: 500%;
 			font-family: "Rubik", sans-serif;
 			color: rgba(255, 255, 255, 0.5);
 			user-select: none;
