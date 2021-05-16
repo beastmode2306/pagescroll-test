@@ -9,73 +9,37 @@ const FullPage = function (selector, options = {}) {
 };
 
 FullPage.prototype.init = function () {
-	function detectMob() {
-		const toMatch = [
-			/Android/i,
-			/webOS/i,
-			/iPhone/i,
-			/iPad/i,
-			/iPod/i,
-			/BlackBerry/i,
-			/Windows Phone/i,
-		];
-
-		return toMatch.some((toMatchItem) => {
-			return navigator.userAgent.match(toMatchItem);
-		});
-	}
-
+	// Doing mobile view height magic trick!
 	let vh = window.innerHeight * 0.01;
 	document.documentElement.style.setProperty("--vh", `${vh}px`);
-
+	// Determining user window height
+	this.user_height = window.innerHeight;
+	// Counts the number of slides
 	this.slide_count = this.$root.querySelectorAll(".slide").length;
+
+	// Listening to wheel event to trigger animation
 	const scroll_listener = document.addEventListener("wheel", (e) => {
 		e.deltaY > 0 ? this.moveNext() : this.movePrev();
 	});
 
-	this.$root.querySelector(
-		".slide"
-	).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
+	// Listening to resize event to change variables and call reRender method
+	const resize_listener = window.addEventListener("resize", (e) => {
+		this.user_height = window.innerHeight;
+		this.reRender();
+		let vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty("--vh", `${vh}px`);
+	});
 
-	if (detectMob()) {
-		if ("ontouchstart" in window) {
-			let touch_start = null;
-			window.addEventListener("touchstart", (e) => {
-				touch_start = e.changedTouches["0"].clientY;
-			});
-			window.addEventListener("touchend", (e) => {
-				touch_start > e.changedTouches["0"].clientY
-					? this.moveNext()
-					: this.movePrev();
-			});
-
-			const resize_listener = window.addEventListener("resize", (e) => {
-				this.user_height = window.outerHeight;
-				this.reRender();
-				let vh = window.innerHeight * 0.01;
-				document.documentElement.style.setProperty("--vh", `${vh}px`);
-				this.$root.querySelector(
-					".slide"
-				).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
-			});
-
-			setTimeout(() => {
-				this.user_height = window.outerHeight;
-			}, 100);
-		}
-	} else {
-		setTimeout(() => {
-			this.user_height = Math.min(window.innerHeight, window.outerHeight);
-		}, 100);
-
-		const resize_listener = window.addEventListener("resize", (e) => {
-			this.user_height = Math.min(window.innerHeight, window.outerHeight);
-			this.reRender();
-			let vh = window.innerHeight * 0.01;
-			document.documentElement.style.setProperty("--vh", `${vh}px`);
-			this.$root.querySelector(
-				".slide"
-			).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
+	// Determining whether device has touch events
+	if ("ontouchstart" in window) {
+		let touch_start = null;
+		window.addEventListener("touchstart", (e) => {
+			touch_start = e.changedTouches["0"].clientY;
+		});
+		window.addEventListener("touchend", (e) => {
+			touch_start > e.changedTouches["0"].clientY
+				? this.moveNext()
+				: this.movePrev();
 		});
 	}
 };
