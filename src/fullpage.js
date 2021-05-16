@@ -30,6 +30,10 @@ FullPage.prototype.init = function () {
 		e.deltaY > 0 ? this.moveNext() : this.movePrev();
 	});
 
+	this.$root.querySelector(
+		".slide"
+	).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight}`;
+
 	if (detectMob()) {
 		if ("ontouchstart" in window) {
 			let touch_start = null;
@@ -45,6 +49,10 @@ FullPage.prototype.init = function () {
 			const resize_listener = window.addEventListener("resize", (e) => {
 				this.user_height = window.outerHeight;
 				this.reRender();
+
+				this.$root.querySelector(
+					".slide"
+				).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight}`;
 			});
 
 			setTimeout(() => {
@@ -59,6 +67,10 @@ FullPage.prototype.init = function () {
 		const resize_listener = window.addEventListener("resize", (e) => {
 			this.user_height = Math.min(window.innerHeight, window.outerHeight);
 			this.reRender();
+
+			this.$root.querySelector(
+				".slide"
+			).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight}`;
 		});
 	}
 };
