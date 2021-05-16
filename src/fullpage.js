@@ -10,14 +10,16 @@ const FullPage = function (selector, options = {}) {
 
 FullPage.prototype.init = function () {
 	this.slide_count = this.$root.querySelectorAll(".slide").length;
-	this.user_height = window.innerHeight;
+	setTimeout(() => {
+		this.user_height = Math.min(window.innerHeight, window.outerHeight);
+	}, 100);
 
 	const scroll_listener = document.addEventListener("wheel", (e) => {
 		e.deltaY > 0 ? this.moveNext() : this.movePrev();
 	});
 
 	const resize_listener = window.addEventListener("resize", (e) => {
-		this.user_height = window.innerHeight;
+		this.user_height = Math.min(window.innerHeight, window.outerHeight);
 		this.reRender();
 	});
 
