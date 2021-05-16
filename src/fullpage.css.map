@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,IAAI,CAAC;EACJ,MAAM,EAAE,CAAC;EACT,OAAO,EAAE,CAAC;EACV,UAAU,EAAE,UAAU;CACtB;;AAED,AACC,SADQ,CACR,MAAM,CAAC;EACN,OAAO,EAAE,IAAI;EACb,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,KAAK;CACb",
+    "sources": [
+        "fullpage.scss"
+    ],
+    "names": [],
+    "file": "fullpage.css"
+}
