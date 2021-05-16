@@ -9,7 +9,6 @@ const FullPage = function (selector, options = {}) {
 };
 
 FullPage.prototype.init = function () {
-	window.scrollTo(0, 1);
 	function detectMob() {
 		const toMatch = [
 			/Android/i,
@@ -84,6 +83,7 @@ FullPage.prototype.reRender = function () {
 
 FullPage.prototype.moveNext = function () {
 	if (this.current_slide < this.slide_count - 1 && !this.animating) {
+		window.scrollTo(0, 1);
 		this.animating = true;
 		setTimeout(() => (this.animating = false), 1000);
 		this.current_slide++;
@@ -98,6 +98,7 @@ FullPage.prototype.movePrev = function () {
 		this.animating = true;
 		setTimeout(() => (this.animating = false), 1000);
 		this.current_slide--;
+		if (this.current_slide == 0) window.scrollTo(0, 0);
 		this.$root.style = `transform: translate3d(0px, -${
 			this.current_slide * this.user_height
 		}px, 0px); transition: all 1000ms ease 0s; height: 100%; position: relative;touch-action: none;`;
