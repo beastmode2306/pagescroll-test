@@ -25,6 +25,9 @@ FullPage.prototype.init = function () {
 		});
 	}
 
+	let vh = window.innerHeight * 0.01;
+	document.documentElement.style.setProperty("--vh", `${vh}px`);
+
 	this.slide_count = this.$root.querySelectorAll(".slide").length;
 	const scroll_listener = document.addEventListener("wheel", (e) => {
 		e.deltaY > 0 ? this.moveNext() : this.movePrev();
@@ -49,7 +52,8 @@ FullPage.prototype.init = function () {
 			const resize_listener = window.addEventListener("resize", (e) => {
 				this.user_height = window.outerHeight;
 				this.reRender();
-
+				let vh = window.innerHeight * 0.01;
+				document.documentElement.style.setProperty("--vh", `${vh}px`);
 				this.$root.querySelector(
 					".slide"
 				).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
@@ -67,7 +71,8 @@ FullPage.prototype.init = function () {
 		const resize_listener = window.addEventListener("resize", (e) => {
 			this.user_height = Math.min(window.innerHeight, window.outerHeight);
 			this.reRender();
-
+			let vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty("--vh", `${vh}px`);
 			this.$root.querySelector(
 				".slide"
 			).textContent = `inner: ${window.innerHeight} outer: ${window.outerHeight} pixel: ${window.devicePixelRatio} document: ${document.documentElement.clientHeight}`;
@@ -83,7 +88,6 @@ FullPage.prototype.reRender = function () {
 
 FullPage.prototype.moveNext = function () {
 	if (this.current_slide < this.slide_count - 1 && !this.animating) {
-		window.scrollTo(0, 1);
 		this.animating = true;
 		setTimeout(() => (this.animating = false), 1000);
 		this.current_slide++;
@@ -98,7 +102,6 @@ FullPage.prototype.movePrev = function () {
 		this.animating = true;
 		setTimeout(() => (this.animating = false), 1000);
 		this.current_slide--;
-		if (this.current_slide == 0) window.scrollTo(0, 0);
 		this.$root.style = `transform: translate3d(0px, -${
 			this.current_slide * this.user_height
 		}px, 0px); transition: all 1000ms ease 0s; height: 100%; position: relative;touch-action: none;`;
