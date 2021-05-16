@@ -9,29 +9,56 @@ const FullPage = function (selector, options = {}) {
 };
 
 FullPage.prototype.init = function () {
-	this.slide_count = this.$root.querySelectorAll(".slide").length;
-	setTimeout(() => {
-		this.user_height = Math.min(window.innerHeight, window.outerHeight);
-	}, 100);
+	function detectMob() {
+		const toMatch = [
+			/Android/i,
+			/webOS/i,
+			/iPhone/i,
+			/iPad/i,
+			/iPod/i,
+			/BlackBerry/i,
+			/Windows Phone/i,
+		];
 
+		return toMatch.some((toMatchItem) => {
+			return navigator.userAgent.match(toMatchItem);
+		});
+	}
+
+	this.slide_count = this.$root.querySelectorAll(".slide").length;
 	const scroll_listener = document.addEventListener("wheel", (e) => {
 		e.deltaY > 0 ? this.moveNext() : this.movePrev();
 	});
 
-	const resize_listener = window.addEventListener("resize", (e) => {
-		this.user_height = Math.min(window.innerHeight, window.outerHeight);
-		this.reRender();
-	});
+	if (detectMob()) {
+		if ("ontouchstart" in window) {
+			let touch_start = null;
+			window.addEventListener("touchstart", (e) => {
+				touch_start = e.changedTouches["0"].clientY;
+			});
+			window.addEventListener("touchend", (e) => {
+				touch_start > e.changedTouches["0"].clientY
+					? this.moveNext()
+					: this.movePrev();
+			});
 
-	if ("ontouchstart" in window) {
-		let touch_start = null;
-		window.addEventListener("touchstart", (e) => {
-			touch_start = e.changedTouches["0"].clientY;
-		});
-		window.addEventListener("touchend", (e) => {
-			touch_start > e.changedTouches["0"].clientY
-				? this.moveNext()
-				: this.movePrev();
+			const resize_listener = window.addEventListener("resize", (e) => {
+				this.user_height = window.outerHeight;
+				this.reRender();
+			});
+
+			setTimeout(() => {
+				this.user_height = window.outerHeight;
+			}, 100);
+		}
+	} else {
+		setTimeout(() => {
+			this.user_height = Math.min(window.innerHeight, window.outerHeight);
+		}, 100);
+
+		const resize_listener = window.addEventListener("resize", (e) => {
+			this.user_height = Math.min(window.innerHeight, window.outerHeight);
+			this.reRender();
 		});
 	}
 };
