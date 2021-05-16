@@ -9,6 +9,7 @@ const FullPage = function (selector, options = {}) {
 };
 
 FullPage.prototype.init = function () {
+	window.scrollTo(0, 1);
 	function detectMob() {
 		const toMatch = [
 			/Android/i,
