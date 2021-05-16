@@ -20,6 +20,18 @@ FullPage.prototype.init = function () {
 		this.user_height = window.innerHeight;
 		this.reRender();
 	});
+
+	if ("ontouchstart" in window) {
+		let touch_start = null;
+		window.addEventListener("touchstart", (e) => {
+			touch_start = e.changedTouches["0"].clientY;
+		});
+		window.addEventListener("touchend", (e) => {
+			touch_start > e.changedTouches["0"].clientY
+				? this.moveNext()
+				: this.movePrev();
+		});
+	}
 };
 
 FullPage.prototype.reRender = function () {
