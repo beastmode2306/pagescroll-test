@@ -38,13 +38,13 @@ FullPage.prototype.init = function () {
 			touch_start = e.changedTouches["0"].clientY;
 		});
 		window.addEventListener("touchend", (e) => {
-			if (this.accumulated_touchmove > this.user_height / 3) {
+			if (this.accumulated_touchmove > this.user_height / 4) {
 				if (this.current_slide != this.slide_count - 1) {
 					this.moveNext();
 				} else {
 					this.reRender();
 				}
-			} else if (-this.accumulated_touchmove > this.user_height / 3) {
+			} else if (-this.accumulated_touchmove > this.user_height / 4) {
 				if (this.current_slide != 0) {
 					this.movePrev();
 				} else {
